@@ -8,19 +8,25 @@
         src="https://covers.openlibrary.org/b/<%= book.cover_key %>/<%= book.cover_value %>-M.jpg"
         width="180"
       />
-      <p id="title<%=book.id%>"><%= book.title %> by <%= book.author %></p>
+      <p>
+        <a href="book/<%= book.id %>/<%= book.title %>" id="title<%=book.id%>"><%= book.title %> by <%= book.author %></a>
+    </p>
       <p><%= book.rating %></p>
       <p>
         <%= book.date_read.getFullYear() %>-<%= book.date_read.getMonth() + 1
         %>-<%= book.date_read.getDate() %>
       </p>
       <p><%= book.notes %></p>
+      <form action="/edit" method="post">
+        <button type="submit" id="edit">Edit</button>
+      </form>
+    </br>
     </div>
     <% } %>
   </div>
   <div>
     <form action="/user" method="post">
-      <button type="submit">Add</button>
+      <button type="submit" id="add">Add</button>
     </form>
   </div>
 </main>

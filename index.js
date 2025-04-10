@@ -27,6 +27,13 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+const user_name = "m.sun";
+const password = "12345678";
+
+function connectedUser() {
+  document.getElementById("add").setAttribute("visible");
+}
+
 app.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM book ORDER BY rating DESC;");
@@ -40,7 +47,24 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.post("/user", async (req, res) => {
+app.get("/book/:bookID/:bookTitle", async (req, res) => {
+  let bookID = req.params.bookID;
+
+  try {
+    const result = await db.query("SELECT * FROM book WHERE id = ($1);", [
+      bookID,
+    ]);
+    let bookSelected = result.rows;
+    console.log(bookSelected);
+    res.render("book.ejs", {
+      book: bookSelected,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/user", (req, res) => {
   res.render("new.ejs");
 });
 

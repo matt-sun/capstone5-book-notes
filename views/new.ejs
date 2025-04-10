@@ -17,15 +17,18 @@
         placeholder="Book Title"
         autocomplete="off"
         autofocus="true"
+        required
       />
-      <input type="date" name="dateRead" placeHolder="Date Read" />
+      <input type="date" name="dateRead" placeHolder="Date Read" required />
       <input
         type="number"
         name="rating"
         min="0"
         max="10"
         placeHolder="Rating out of 10"
+        required
       />
+      <input type="text" name="notes" placeHolder="Notes" />
       <button type="submit">Add</button>
     </form>
   </body>
