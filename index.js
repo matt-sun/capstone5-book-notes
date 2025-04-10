@@ -18,7 +18,7 @@ const port = 3000;
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
-  database: "permalist",
+  database: "library",
   password: "IL0ve2Code!",
   port: 5432,
 });
@@ -27,8 +27,17 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
+app.get("/", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM book ORDER BY rating DESC;");
+    let books = result.rows;
+
+    res.render("index.ejs", {
+      listBooks: books,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.listen(port, () => {
