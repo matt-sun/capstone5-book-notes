@@ -40,6 +40,45 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.post("/user", async (req, res) => {
+  res.render("new.ejs");
+});
+
+app.post("/new", async (req, res) => {
+  const bookQuery = req.body;
+  // console.log(bookQuery);
+
+  try {
+    let result = await axios.get("https://openlibrary.org/search.json", {
+      params: {
+        q: bookQuery.newBook,
+      },
+    });
+    let bookQueried = result.data.docs[0];
+    // console.log(bookQueried);
+    try {
+      await db.query(
+        "INSERT INTO book (title, rating, date_read, author, cover_key, cover_value) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+        [
+          bookQueried.title,
+          bookQuery.rating,
+          bookQuery.dateRead,
+          bookQueried.author_name,
+          "OLID",
+          bookQueried.cover_edition_key,
+        ]
+      );
+
+      res.redirect("/");
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (error) {
+    console.log(error.response.data);
+    res.status(500);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
