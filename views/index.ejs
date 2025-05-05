@@ -9,17 +9,13 @@
         width="180"
       />
       <p>
-        <a href="book/<%= book.id %>/<%= book.title %>" id="title<%=book.id%>"><%= book.title %> by <%= book.author %></a>
+        <a href="book/<%= encodeURIComponent(book.title) %>/<%= book.id %>" id="title<%=book.id%>"><%= book.title %> by <%= book.author %></a>
     </p>
       <p><%= book.rating %></p>
       <p>
-        <%= book.date_read.getFullYear() %>-<%= book.date_read.getMonth() + 1
-        %>-<%= book.date_read.getDate() %>
+        <%= book.date_read.toISOString().substring(0, 10) %>
       </p>
       <p><%= book.notes %></p>
-      <form action="/edit" method="post">
-        <button type="submit" id="edit">Edit</button>
-      </form>
     </br>
     </div>
     <% } %>

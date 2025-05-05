@@ -27,13 +27,6 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const user_name = "m.sun";
-const password = "12345678";
-
-function connectedUser() {
-  document.getElementById("add").setAttribute("visible");
-}
-
 app.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM book ORDER BY rating DESC;");
@@ -47,8 +40,9 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/book/:bookID/:bookTitle", async (req, res) => {
+app.get("/book/:bookTitle/:bookID", async (req, res) => {
   let bookID = req.params.bookID;
+  let url = req.originalUrl;
 
   try {
     const result = await db.query("SELECT * FROM book WHERE id = ($1);", [
@@ -56,8 +50,10 @@ app.get("/book/:bookID/:bookTitle", async (req, res) => {
     ]);
     let bookSelected = result.rows;
     console.log(bookSelected);
+
     res.render("book.ejs", {
       book: bookSelected,
+      url,
     });
   } catch (err) {
     console.log(err);
@@ -67,8 +63,6 @@ app.get("/book/:bookID/:bookTitle", async (req, res) => {
 app.post("/user", (req, res) => {
   res.render("new.ejs");
 });
-
-
 
 app.post("/new", async (req, res) => {
   const bookQuery = req.body;
@@ -81,7 +75,7 @@ app.post("/new", async (req, res) => {
       },
     });
     let bookQueried = result.data.docs[0];
-    // console.log(bookQueried);
+    console.log(bookQueried);
     try {
       await db.query(
         "INSERT INTO book (title, rating, date_read, author, cover_key, cover_value) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
@@ -89,12 +83,11 @@ app.post("/new", async (req, res) => {
           bookQueried.title,
           bookQuery.rating,
           bookQuery.dateRead,
-          bookQueried.author_name,
+          bookQueried.author_name[0],
           "OLID",
           bookQueried.cover_edition_key,
         ]
       );
-
       res.redirect("/");
     } catch (err) {
       console.log(err);
@@ -102,6 +95,43 @@ app.post("/new", async (req, res) => {
   } catch (error) {
     console.log(error.response.data);
     res.status(500);
+  }
+});
+
+app.post("/book/edit/:bookTitle/:bookID", async (req, res) => {
+  let bookID = req.params.bookID;
+  let url = req.originalUrl;
+
+  try {
+    const result = await db.query("SELECT * FROM book WHERE id = ($1);", [
+      bookID,
+    ]);
+    let bookSelected = result.rows;
+    console.log(bookSelected);
+
+    res.render("book.ejs", {
+      book: bookSelected,
+      url,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/book/:bookTitle/:bookID/edited", async (req, res) => {
+  let bookID = req.params.bookID;
+  let bookTitle = req.params.bookTitle;
+  let editedNotes = req.body["notes"];
+
+  try {
+    const result = await db.query(
+      "UPDATE book SET notes = ($1) WHERE id = ($2);",
+      [editedNotes, bookID]
+    );
+
+    res.redirect(`/book/${encodeURIComponent(bookTitle)}/${bookID}`);
+  } catch (err) {
+    console.log(err);
   }
 });
 

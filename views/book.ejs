@@ -4,10 +4,41 @@
 <!-- Main Body -->
 <div>
   <h1><%= book[0].title %></h1>
+  <img
+    src="https://covers.openlibrary.org/b/<%= book[0].cover_key %>/<%= book[0].cover_value %>-M.jpg"
+    width="180"
+  />
+
+  <% if (url.includes("edit") === true) { %>
+
+  <p>Author: <%= book[0].author %></p>
+  <p>Rating: <%= book[0].rating %>/10</p>
+  <p>Date read: <%= book[0].date_read.toISOString().substring(0, 10) %></p>
+
+  <form
+    action="/book/<%= encodeURIComponent(book[0].title) %>/<%= book[0].id %>/edited"
+    method="POST"
+  >
+    <textarea name="notes"><%= book[0].notes %></textarea>
+    <input type="submit" value="Add Notes" />
+  </form>
+
+  <% } else { %>
+
+  <p>Author: <%= book[0].author %></p>
+  <p>Rating: <%= book[0].rating %>/10</p>
+  <p>Date read: <%= book[0].date_read.toISOString().substring(0, 10) %></p>
   <p><%= book[0].notes %></p>
-  <form action="/edit" method="post">
+
+  <form
+    action="/book/edit/<%= encodeURIComponent(book[0].title) %>/<%= book[0].id %>"
+    method="POST"
+  >
     <button type="submit" id="edit">Edit</button>
   </form>
+  <% } %>
+
+  <a href="/">Home</a>
 </div>
 
 <!-- Footer -->
