@@ -68,6 +68,8 @@ app.post("/user", (req, res) => {
   res.render("new.ejs");
 });
 
+
+
 app.post("/new", async (req, res) => {
   const bookQuery = req.body;
   // console.log(bookQuery);

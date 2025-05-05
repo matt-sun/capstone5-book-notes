@@ -5,6 +5,9 @@
 <div>
   <h1><%= book[0].title %></h1>
   <p><%= book[0].notes %></p>
+  <form action="/edit" method="post">
+    <button type="submit" id="edit">Edit</button>
+  </form>
 </div>
 
 <!-- Footer -->
