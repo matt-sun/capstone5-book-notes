@@ -110,6 +110,13 @@ p {
   margin-top: 1.5rem;
 }
 
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 1rem;
+}
+
 .buttonBook * {
   font-family: "Nunito Sans", sans-serif;
   font-weight: 400;
@@ -124,6 +131,15 @@ p {
   field-sizing: content;
   margin-top: 2rem;
   margin-bottom: 1rem;
+}
+
+.delete {
+  background-color: #9a0000;
+  color: #fafbec;
+  border-radius: 10px;
+  border-style: none;
+  padding: 8px 16px 8px 16px;
+  height: 2.5rem;
 }
 
 /* Body - New */

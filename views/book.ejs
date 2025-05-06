@@ -30,13 +30,23 @@
 
     <p><%= book[0].notes %></p>
 
-    <form
-      action="/book/edit/<%= encodeURIComponent(book[0].title) %>/<%= book[0].id %>"
-      method="POST"
-      class="buttonBook"
-    >
-      <button type="submit" class="edit">Edit</button>
-    </form>
+    <div class="buttons">
+      <form
+        action="/book/edit/<%= encodeURIComponent(book[0].title) %>/<%= book[0].id %>"
+        method="POST"
+        class="buttonBook"
+      >
+        <button type="submit" class="edit">Edit</button>
+      </form>
+
+      <form
+        action="/book/delete/<%= encodeURIComponent(book[0].title) %>/<%= book[0].id %>"
+        method="POST"
+        class="buttonBook"
+      >
+        <button type="submit" class="delete">Delete</button>
+      </form>
+    </div>
     <% } %>
   </div>
 </main>

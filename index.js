@@ -40,6 +40,47 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/sort-title", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM book ORDER BY title ASC;");
+    let books = result.rows;
+
+    res.render("index.ejs", {
+      listBooks: books,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.get("/sort-newest", async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT * FROM book ORDER BY date_read DESC;"
+    );
+    let books = result.rows;
+
+    res.render("index.ejs", {
+      listBooks: books,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.get("/sort-rating", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM book ORDER BY rating DESC;");
+    let books = result.rows;
+
+    res.render("index.ejs", {
+      listBooks: books,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.get("/book/:bookTitle/:bookID", async (req, res) => {
   let bookID = req.params.bookID;
   let url = req.originalUrl;
@@ -129,6 +170,20 @@ app.post("/book/:bookTitle/:bookID/edited", async (req, res) => {
     );
 
     res.redirect(`/book/${encodeURIComponent(bookTitle)}/${bookID}`);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/book/delete/:bookTitle/:bookID", async (req, res) => {
+  let bookID = req.params.bookID;
+
+  try {
+    const result = await db.query("DELETE FROM book WHERE id = ($1);", [
+      bookID,
+    ]);
+
+    res.redirect("/");
   } catch (err) {
     console.log(err);
   }
