@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Book</title>
-    <link rel="stylesheet" href="./styles/main.css" />
-    <link rel="stylesheet" href="./styles/new.css" />
-  </head>
+<!-- Header -->
+<%- include("partials/header.ejs") %>
 
-  <body>
-    <h1>Add a new book to your library</h1>
+<!-- Main Body -->
+<main>
+  <div class="bookAdd">
+    <h2>Add a new book to your library</h2>
     <form action="/new" method="post">
       <input
         type="text"
@@ -19,7 +14,7 @@
         autofocus="true"
         required
       />
-      <input type="date" name="dateRead" placeHolder="Date Read" required />
+      <input type="date" name="dateRead" required />
       <input
         type="number"
         name="rating"
@@ -28,8 +23,11 @@
         placeHolder="Rating out of 10"
         required
       />
-      <input type="text" name="notes" placeHolder="Notes" />
-      <button type="submit">Add</button>
+      <textarea type="text" name="notes" placeHolder="Notes"></textarea>
+      <button type="submit" class="add">Add</button>
     </form>
-  </body>
-</html>
+  </div>
+</main>
+
+<!-- Footer -->
+<%- include("partials/footer.ejs") %>

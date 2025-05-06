@@ -49,7 +49,6 @@ app.get("/book/:bookTitle/:bookID", async (req, res) => {
       bookID,
     ]);
     let bookSelected = result.rows;
-    console.log(bookSelected);
 
     res.render("book.ejs", {
       book: bookSelected,
@@ -78,7 +77,7 @@ app.post("/new", async (req, res) => {
     console.log(bookQueried);
     try {
       await db.query(
-        "INSERT INTO book (title, rating, date_read, author, cover_key, cover_value) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+        "INSERT INTO book (title, rating, date_read, author, cover_key, cover_value, notes) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;",
         [
           bookQueried.title,
           bookQuery.rating,
@@ -86,6 +85,7 @@ app.post("/new", async (req, res) => {
           bookQueried.author_name[0],
           "OLID",
           bookQueried.cover_edition_key,
+          bookQuery.notes,
         ]
       );
       res.redirect("/");
@@ -107,7 +107,6 @@ app.post("/book/edit/:bookTitle/:bookID", async (req, res) => {
       bookID,
     ]);
     let bookSelected = result.rows;
-    console.log(bookSelected);
 
     res.render("book.ejs", {
       book: bookSelected,

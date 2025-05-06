@@ -1,30 +1,66 @@
+<!-- Header -->
 <%- include("partials/header.ejs") %>
 
+<!-- Main Body -->
 <main>
   <div>
-    <% for(let book of listBooks){%>
-    <div class="book">
-      <img
-        src="https://covers.openlibrary.org/b/<%= book.cover_key %>/<%= book.cover_value %>-M.jpg"
-        width="180"
-      />
+    <div>
       <p>
-        <a href="book/<%= encodeURIComponent(book.title) %>/<%= book.id %>" id="title<%=book.id%>"><%= book.title %> by <%= book.author %></a>
-    </p>
-      <p><%= book.rating %></p>
-      <p>
-        <%= book.date_read.toISOString().substring(0, 10) %>
+        Short list of books I've read throughout my life.
+        <b>I do not usually take notes</b> when reading books, as I initially
+        started reading fantasy novels. However as time went by, and as my
+        reading pivoted towards personal development books, I fell I should get
+        into taking notes of important bits to keep in mind the core of each
+        book. <b>I will try to update this page as I read more.</b>
       </p>
-      <p><%= book.notes %></p>
-    </br>
+      <p>Default sorting is by rating. Sort by title, newest or rating.</p>
+
+      <form action="/user" method="post" class="buttonBook">
+        <button type="submit" class="add">Add</button>
+      </form>
+
+      <hr />
     </div>
-    <% } %>
-  </div>
-  <div>
-    <form action="/user" method="post">
-      <button type="submit" id="add">Add</button>
-    </form>
+    <section>
+      <% for(let book of listBooks){%>
+      <div class="book">
+        <div>
+          <a href="book/<%= encodeURIComponent(book.title) %>/<%= book.id %>">
+            <img
+              src="https://covers.openlibrary.org/b/<%= book.cover_key %>/<%= book.cover_value %>-M.jpg"
+              loading="lazy"
+              alt="<%= encodeURIComponent(book.title) %> by <%= book.author %> book cover"
+          /></a>
+        </div>
+        <h2>
+          <a
+            href="book/<%= encodeURIComponent(book.title) %>/<%= book.id %>"
+            id="title<%=book.id%>"
+            ><%= book.title %> - by <%= book.author %></a
+          >
+        </h2>
+        <small>
+          Date read: <%= book.date_read.toISOString().substring(0, 10) %>. My
+          (subjective) rating: <%= book.rating %>/10
+        </small>
+        <% if (book.notes.split(/\s+/).length <= 140) { %>
+        <p><%= book.notes %></p>
+        <% } else { %>
+        <p><%= book.notes.split(/\s+/).slice(0,140).join(" ") %>...</p>
+        <% }%>
+        <p>
+          Read my detailed notes
+          <a
+            href="book/<%= encodeURIComponent(book.title) %>/<%= book.id %>"
+            id="title<%=book.id%>"
+            ><strong>here</strong></a
+          >.
+        </p>
+      </div>
+      <% } %>
+    </section>
   </div>
 </main>
 
+<!-- Footer -->
 <%- include("partials/footer.ejs") %>

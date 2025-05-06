@@ -5,12 +5,20 @@
 body {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
+  max-width: 50rem;
+  margin: 0 auto;
   font-family: "Nunito Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
-  background-color: #f9f9f9;
+  background-color: #fafbec;
   color: #1a1a1a;
+}
+
+a,
+a:visited {
+  color: #005f73;
 }
 
 /* Header */
@@ -21,26 +29,156 @@ header {
   justify-content: space-between;
 }
 
-/* Body */
+h1 {
+  margin: 2rem 0 0.5rem 0;
+  text-align: center;
+}
+
+h1 > a.hover {
+  color: #005f73;
+  text-decoration: none;
+}
+
+h1 > a.hover:hover {
+  text-decoration: underline;
+}
+
+/* Body - All */
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  min-width: 60%;
 }
 
-main > h1 {
-  margin: 5% 0 2% 0;
-  color: #005f73;
-}
-
-main > p {
-  margin: 2% 0 5% 0;
-}
-
-h1 {
+.buttonBook {
   text-align: center;
+  margin: 2rem 0;
+}
+
+.add,
+.edit {
+  background-color: #005f73;
+  color: #fafbec;
+  border-radius: 10px;
+  border-style: none;
+  padding: 8px 16px 8px 16px;
+  height: 2.5rem;
+}
+
+hr {
+  height: 4px;
+  border-width: 0px;
+  background-color: #005f73;
+  margin-bottom: 3rem;
+}
+
+.book {
+  margin-bottom: 3rem;
+  min-height: 250px;
+}
+
+img {
+  float: left;
+  margin-right: 30px;
+  width: 150px;
+}
+
+h2 {
+  text-transform: uppercase;
+  color: #005f73;
+  margin-top: 0;
+}
+
+small {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+p {
+  margin: 1.5rem 0 1.5rem 0;
+  font-size: medium;
+}
+
+/* Body - Book */
+
+.bookDetails,
+.bookAdd {
+  margin-top: 1.5rem;
+}
+
+.buttonBook * {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: medium;
+  border-width: 0.5px;
+  border-radius: 10px;
+}
+
+.buttonBook textarea {
+  width: 100%;
+  field-sizing: content;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Body - New */
+
+.bookAdd {
+  width: 100%;
+  text-align: center;
+}
+
+.bookAdd > h2 {
+  text-align: center;
+}
+
+.bookAdd form {
+  display: grid;
+  justify-items: center;
+  grid-template-rows: 1fr 1fr 3fr 1.5fr;
+  grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
+  gap: 1rem 1rem;
+  margin-top: 2rem;
+}
+
+.bookAdd form * {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: medium;
+}
+
+.bookAdd form input,
+.bookAdd form textarea {
+  min-width: 100%;
+  padding: 3px 6px;
+  border-width: 0.5px;
+  border-radius: 10px;
+}
+
+input[name="newBook"] {
+  grid-area: 1 / 1 / 2 / 6;
+}
+
+input[name="dateRead"] {
+  grid-area: 2 / 1 / 3 / 3;
+}
+
+input[name="rating"] {
+  grid-area: 2 / 4 / 3 / 6;
+}
+
+textarea[name="notes"] {
+  grid-area: 3 / 1 / 4 / 6;
+}
+
+.bookAdd button {
+  grid-area: 4 / 3 / 5 / 4;
 }
 
 /* Footer */
